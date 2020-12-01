@@ -148,6 +148,7 @@ export class SwapService {
             // tslint:disable-next-line:boolean-naming
             skipValidation,
             affiliateFee,
+            shouldSellEntireBalance,
         } = params;
         const swapQuote = await this._getMarketBuyOrSellQuoteAsync(params);
 
@@ -173,6 +174,7 @@ export class SwapService {
             isETHSell,
             isETHBuy,
             isMetaTransaction,
+            shouldSellEntireBalance,
             affiliateAddress,
             { recipient: affiliateFee.recipient, buyTokenFeeAmount, sellTokenFeeAmount },
         );
@@ -619,12 +621,13 @@ export class SwapService {
         isFromETH: boolean,
         isToETH: boolean,
         isMetaTransaction: boolean,
+        shouldSellEntireBalance: boolean,
         affiliateAddress: string | undefined,
         affiliateFee: AffiliateFee,
     ): Promise<SwapQuoteResponsePartialTransaction> {
         const opts: Partial<SwapQuoteGetOutputOpts> = {
             useExtensionContract: ExtensionContractType.ExchangeProxy,
-            extensionContractOpts: { isFromETH, isToETH, isMetaTransaction, affiliateFee },
+            extensionContractOpts: { isFromETH, isToETH, isMetaTransaction, shouldSellEntireBalance, affiliateFee },
         };
 
         const {
